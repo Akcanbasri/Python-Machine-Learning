@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler  # for standardization of data
 
 # 2 - Data Preprocessing
 # %%--> (2.1 - Reading data and calling DF)
-dataFrame = pd.read_csv("../data/eksikveriler.csv")
+dataFrame = pd.read_csv("data/eksikveriler.csv")
 
 # %%--> (2.2 - Filling null variables)
 imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
@@ -23,7 +23,7 @@ nullValues = imputer.fit_transform(nullValues[:, 0:4])
 # DF after filling
 print(nullValues)
 
-# %%--> (2.3 - Encoder Nominal,Ordinal -> Numeric)
+# %%--> (2.3 - Encoder of Nominal,Ordinal -> Numeric)
 country = dataFrame.iloc[:, 0:1].values
 print(country)
 
