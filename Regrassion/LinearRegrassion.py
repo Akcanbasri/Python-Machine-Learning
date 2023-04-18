@@ -2,12 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sbn
-from sklearn.impute import SimpleImputer  # for filling null variables
-from sklearn import preprocessing  # encoding for categorical variables
-from sklearn.model_selection import train_test_split  # for splitting data
-from sklearn.preprocessing import StandardScaler  # for standardization of data
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
 
 # %% Calling DF
 dataFrame = pd.read_csv("../data/satislar.csv")
@@ -19,14 +13,20 @@ x = dataFrame[["Aylar"]]
 y = dataFrame[["Satislar"]]
 
 # %% Splitting Data
+from sklearn.model_selection import train_test_split  # for splitting data
+
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=0)
 
 # %% Standardization
+from sklearn.preprocessing import StandardScaler  # for standardization of data
+
 sc = StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test = sc.transform(x_test)
 
 # %% Creating model(Linear Regression)
+from sklearn.linear_model import LinearRegression
+
 model = LinearRegression()
 model.fit(X_train, y_train)
 predict = model.predict(X_test)
@@ -44,6 +44,8 @@ plt.show()
 
 # %% Testing model
 # Make predictions on test data
+from sklearn.metrics import mean_squared_error, r2_score
+
 y_pred = model.predict(X_test)
 
 # Calculate Mean Squared Error (MSE)

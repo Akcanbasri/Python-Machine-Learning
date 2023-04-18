@@ -3,16 +3,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sbn
-from sklearn.impute import SimpleImputer  # for filling null variables
-from sklearn import preprocessing  # encoding for categorical variables
-from sklearn.model_selection import train_test_split  # for splitting data
-from sklearn.preprocessing import StandardScaler  # for standardization of data
 
 # 2 - Data Preprocessing
 # %%--> (2.1 - Reading data and calling DF)
 dataFrame = pd.read_csv("data/eksikveriler.csv")
 
 # %%--> (2.2 - Filling null variables)
+from sklearn.impute import SimpleImputer  # for filling null variables
+
 imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
 
 nullValues = dataFrame.iloc[:, 1:4].values
@@ -24,6 +22,8 @@ nullValues = imputer.fit_transform(nullValues[:, 0:4])
 print(nullValues)
 
 # %%--> (2.3 - Encoder of Nominal,Ordinal -> Numeric)
+from sklearn import preprocessing  # encoding for categorical variables
+
 country = dataFrame.iloc[:, 0:1].values
 print(country)
 
@@ -57,9 +57,13 @@ mergedDF = pd.concat([s, resultDF3], axis=1)
 print(mergedDF)
 
 # %%--> (2.6 - Splitting DF into 4 pieces(x_train, x_test,y_train,y_test) for learning)
+from sklearn.model_selection import train_test_split  # for splitting data
+
 x_train, x_test, y_train, y_test = train_test_split(s, resultDF3, test_size=0.33, random_state=0)
 
 # %%--> (2.7 - Standardization of values for learning )
+from sklearn.preprocessing import StandardScaler  # for standardization of data
+
 sc = StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test = sc.fit_transform(x_test)

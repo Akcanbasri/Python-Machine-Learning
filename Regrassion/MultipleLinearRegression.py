@@ -3,19 +3,15 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sbn
-from sklearn.impute import SimpleImputer  # for filling null variables
-from sklearn import preprocessing  # encoding for categorical variables
-from sklearn.model_selection import train_test_split  # for splitting data
-from sklearn.preprocessing import StandardScaler  # for standardization of data
-from sklearn.linear_model import LinearRegression
-import statsmodels.api as sm  # getting statics values info about our model
 
 # 2 - Data Preprocessing
 #   --> (2.1 - Reading data and calling DF)
-dataFrame = pd.read_csv("../data/veriler.csv")
+dataFrame = pd.read_csv("veriler.csv")
 print(dataFrame.isnull().sum())
 
 # %%--> (2.2 - Filling null variables)
+from sklearn.impute import SimpleImputer  # for filling null variables
+
 imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
 nullValues = dataFrame.iloc[:, 1:4].values
 # DF before filling
@@ -26,6 +22,8 @@ print(nullValues)
 
 # %%--> (2.3 - Encoder Nominal,Ordinal -> Numeric)
 # encoder for country
+from sklearn import preprocessing  # encoding for categorical variables
+
 country = dataFrame.iloc[:, 0:1].values
 print(country)
 # label encoder
@@ -67,14 +65,20 @@ mergedDF = pd.concat([s, resultDF3], axis=1)
 print(mergedDF)
 
 # %%--> (2.6 - Splitting DF into 4 pieces(x_train, x_test,y_train,y_test) for learning)
+from sklearn.model_selection import train_test_split  # for splitting data
+
 x_train, x_test, y_train, y_test = train_test_split(s, resultDF3, test_size=0.33, random_state=0)
 
 # %%--> (2.7 - Standardization of values for learning )
+from sklearn.preprocessing import StandardScaler  # for standardization of data
+
 sc = StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test = sc.fit_transform(x_test)
 
 # %% Creating model
+from sklearn.linear_model import LinearRegression
+
 model = LinearRegression()
 model.fit(x_train, y_train)
 
@@ -92,6 +96,8 @@ model2.fit(x_train2, y_train2)
 yPred2 = model2.predict(x_test2)
 
 # %% Backward elimination
+import statsmodels.api as sm  # getting statics values info about our model
+
 X = np.append(arr=np.ones((22, 1)).astype(int), values=xDF, axis=1)
 
 XList = xDF.iloc[:, [0, 1, 2, 3, 4, 5]].values
