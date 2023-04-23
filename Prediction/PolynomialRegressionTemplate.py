@@ -1,53 +1,53 @@
 # 1 - Libraries
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sbn
+import pandas as pd
 
 #  2 - Data Preprocessing
 # --> (2.1 - Reading data and calling DF)
 
-dataFrame = pd.read_csv("Regrassion/maaslar.csv")
+dataFrame = pd.read_csv("maaslar.csv")
 print(dataFrame.isnull().sum())
 
 #  Splitting data
 x = dataFrame.iloc[:, 1:2]
 y = dataFrame.iloc[:, 2:]
 
+X = x.values
+Y = y.values
+
+#  3 - Modelling
 # %% Creating linear regression model
 from sklearn.linear_model import LinearRegression  # for linear regression
 
 linearModel = LinearRegression()
-linearModel.fit(x, y)
+linearModel.fit(X, Y)
 
-# Drawing graph
-plt.scatter(x, y, color="r")
-plt.plot(x, linearModel.predict(x), color="blue")
-plt.show()
-
-# %% Creating polynomial regression
+# %% Creating polynomial regression (nonlinear regression)
 from sklearn.preprocessing import PolynomialFeatures
-
+# 2th degree polynomial regression
 polyModel = PolynomialFeatures(degree=2)
 xPoly = polyModel.fit_transform(x.values)
-print(xPoly)
-
 linearModel2 = LinearRegression()
 linearModel2.fit(xPoly, y)
 
+# 4th degree polynomial regression
+polyModel3 = PolynomialFeatures(degree=4)
+xPoly = polyModel3.fit_transform(x.values)
+linearModel3 = LinearRegression()
+linearModel3.fit(xPoly, y)
+
+# %% Drawing graph
+#  for linear regression
+plt.scatter(X, Y, color="r")
+plt.plot(x, linearModel.predict(X), color="blue")
+plt.show()
+# graph for 2nd degree polynomial regression
 plt.scatter(x, y, color="red")
 plt.plot(x, linearModel2.predict(polyModel.fit_transform(x)))
 plt.show()
-
-polyModel = PolynomialFeatures(degree=4)
-xPoly = polyModel.fit_transform(x.values)
-print(xPoly)
-
-linearModel2 = LinearRegression()
-linearModel2.fit(xPoly, y)
-
+# graph for 4th degree polynomial regression
 plt.scatter(x, y, color="red")
-plt.plot(x, linearModel2.predict(polyModel.fit_transform(x)))
+plt.plot(x, linearModel3.predict(polyModel3.fit_transform(x)))
 plt.show()
 
 # %% Guessing

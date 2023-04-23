@@ -24,6 +24,7 @@ linearModel.fit(X, Y)
 
 # %% Creating polynomial regression (nonlinear regression)
 from sklearn.preprocessing import PolynomialFeatures
+
 # 2th degree polynomial regression
 polyModel = PolynomialFeatures(degree=2)
 xPoly = polyModel.fit_transform(x.values)
@@ -56,3 +57,26 @@ print(linearModel.predict([[6.6]]))
 
 print(linearModel2.predict(polyModel.fit_transform([[11]])))
 print(linearModel2.predict(polyModel.fit_transform([[6.6]])))
+
+# %%--> (2.7 - Standardization of values for learning )
+from sklearn.preprocessing import StandardScaler  # for standardization of data
+
+sc1 = StandardScaler()
+xScaled = sc1.fit_transform(X)
+sc2 = StandardScaler()
+yScaled = sc2.fit_transform(Y)
+
+# %% Creating Support Vector Regression Model
+from sklearn.svm import SVR
+
+svrModel = SVR(kernel="rbf")
+svrModel.fit(xScaled, yScaled.ravel())
+
+# %% Drawing graph
+plt.scatter(xScaled, yScaled, color="red")
+plt.plot(xScaled, svrModel.predict(xScaled), color="blue")
+plt.show()
+
+#%% Guessing
+print(svrModel.predict(sc1.transform([[11]])))
+print(svrModel.predict(sc1.transform([[6.6]])))
