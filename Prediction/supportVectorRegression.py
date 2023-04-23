@@ -5,7 +5,7 @@ import pandas as pd
 #  2 - Data Preprocessing
 # --> (2.1 - Reading data and calling DF)
 
-dataFrame = pd.read_csv("Regrassion/maaslar.csv")
+dataFrame = pd.read_csv("Prediction/maaslar.csv")
 print(dataFrame.isnull().sum())
 
 #  Splitting data

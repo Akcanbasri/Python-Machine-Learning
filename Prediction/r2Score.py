@@ -1,6 +1,7 @@
 # 1 - Libraries
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.metrics import r2_score
 
 #  2 - Data Preprocessing
 # --> (2.1 - Reading data and calling DF)
@@ -21,6 +22,15 @@ from sklearn.linear_model import LinearRegression  # for linear regression
 
 linearModel = LinearRegression()
 linearModel.fit(X, Y)
+
+# Drawing graph
+plt.scatter(X, Y, color="r")
+plt.plot(x, linearModel.predict(X), color="blue")
+plt.show()
+
+# r2 score for linear regression
+print("Linear regression r2 score")
+print(r2_score(Y, linearModel.predict(X)))
 
 # %% Creating polynomial regression (nonlinear regression)
 from sklearn.preprocessing import PolynomialFeatures
@@ -58,6 +68,11 @@ print(linearModel.predict([[6.6]]))
 print(linearModel2.predict(polyModel.fit_transform([[11]])))
 print(linearModel2.predict(polyModel.fit_transform([[6.6]])))
 
+#  R2 Score for polynomial regression
+print("Polinomial regression r2 score")
+print(r2_score(y, linearModel2.predict(polyModel.fit_transform(x))))
+print(r2_score(y, linearModel3.predict(polyModel3.fit_transform(x))))
+
 # %%--> (2.7 - Standardization of values for learning )
 from sklearn.preprocessing import StandardScaler  # for standardization of data
 
@@ -66,7 +81,7 @@ xScaled = sc1.fit_transform(X)
 sc2 = StandardScaler()
 yScaled = sc2.fit_transform(Y)
 
-# %% Creating Support Vector Regression Model
+#  Creating Support Vector Regression Model
 from sklearn.svm import SVR
 
 svrModel = SVR(kernel="rbf")
@@ -80,6 +95,10 @@ plt.show()
 #  Guessing
 print(svrModel.predict(sc1.transform([[11]])))
 print(svrModel.predict(sc1.transform([[6.6]])))
+
+#  R2 Score for SVR
+print("Support Vector Regression r2 score")
+print(r2_score(yScaled, svrModel.predict(xScaled)))
 
 # %% Creating decision tree model
 from sklearn.tree import DecisionTreeRegressor
@@ -101,6 +120,10 @@ plt.show()
 print(dtModel.predict([[11]]))
 print(dtModel.predict([[6.6]]))
 
+#  R2 Score for DT
+print("Decision Three r2 score")
+print(r2_score(Y, dtModel.predict(X)))
+
 # %% Creating random forest model
 from sklearn.ensemble import RandomForestRegressor
 
@@ -117,3 +140,24 @@ plt.plot(X, rfModel.predict(X), color="blue")
 plt.plot(Z, rfModel.predict(Z), color="green")
 plt.plot(K, rfModel.predict(K), color="yellow")
 plt.show()
+
+#  R2 Score for RFR
+print("random forest r2 score")
+print(r2_score(Y, rfModel.predict(X)))
+
+# %% Summarize of R2 Score
+print("Linear regression r2 score")
+print(r2_score(Y, linearModel.predict(X)))
+print("-------------------------------------------------------------------------------------")
+print("Polinomial regression r2 score")
+print(r2_score(y, linearModel2.predict(polyModel.fit_transform(x))))
+print(r2_score(y, linearModel3.predict(polyModel3.fit_transform(x))))
+print("-------------------------------------------------------------------------------------")
+print("Support Vector Regression r2 score")
+print(r2_score(yScaled, svrModel.predict(xScaled)))
+print("-------------------------------------------------------------------------------------")
+print("Decision Three r2 score")
+print(r2_score(Y, dtModel.predict(X)))
+print("-------------------------------------------------------------------------------------")
+print("random forest r2 score")
+print(r2_score(Y, rfModel.predict(X)))
